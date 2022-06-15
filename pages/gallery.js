@@ -20,7 +20,7 @@ const settings = {
   progress: 1,
   scale: 3,
   effectTime: 0.01,
-  transEffectScale: 25
+  sliderEffectScale: 25
 };
 function distort(){
   gsap.to(settings, {progress:0,duration:2})
@@ -141,7 +141,7 @@ function MyEffects() {
           'tDiffuse': { value: null },
           'tSize': { value: new THREE.Vector2( 256, 256 ) },
           'center': { value: new THREE.Vector2( 0.5, 0.5 ) },
-          'angle': { value: 1.57 },
+          'angle': { value: 20.57 },
           'time' : {value: 0},
               'progress' : {value: Progress},
               'scale' : {value: settings.scale}
@@ -166,8 +166,8 @@ function MyEffects() {
   const { toggle, sliderTransition } = useControls({ 
     toggle: true,
     sliderTransition:false,
-    transEffectScale: {
-      value: settings.transEffectScale,
+    sliderEffectScale: {
+      value: settings.sliderEffectScale,
       min:0,
       max:100,
       step:5
@@ -192,7 +192,7 @@ function MyEffects() {
   return useFrame((delta) => {
     base.passes[1].uniforms.scale.value = Scale    
      if(sliderTransition === true && toggle === false){
-       base.passes[1].uniforms.progress.value = THREE.MathUtils.damp(base.passes[1].uniforms.progress.value, data.delta*transEffectScale.value, 4, .10)
+       base.passes[1].uniforms.progress.value = THREE.MathUtils.damp(base.passes[1].uniforms.progress.value, data.delta*sliderEffectScale.value, 4, .10)
 
      }
     // base.passes[1].uniforms.progress.value = Progress
@@ -205,7 +205,7 @@ function MyEffects() {
 }
 
 
-export default function BoxesPage() {
+export default function GalleryPage() {
  
   return (
     <>
@@ -238,7 +238,7 @@ export default function BoxesPage() {
 
 
 function Image(props) {
-  const { toggle, sliderTransition } = useControls({ toggle: true,sliderTransition: false })
+  const { toggle, sliderTransition, grayscale } = useControls({ toggle: true,sliderTransition: false, grayscale:true })
 
   const ref = useRef();
   const img = useRef()
@@ -253,14 +253,10 @@ function Image(props) {
       group.current.position.y = THREE.MathUtils.damp(group.current.position.y, -0.1, 4, delta);
       
     }
-    group.current.position.z = THREE.MathUtils.damp(group.current.position.z, Math.max(0, data.delta * 50), 4, delta)
-    // group.current.position.x -= 0.1
-    // ref.current.material.grayscale = THREE.MathUtils.damp(
-    //   ref.current.material.grayscale,
-    //   Math.max(0, data.delta * 500),
-    //   4,
-    //   delta
-    // );
+    // group.current.position.z = THREE.MathUtils.damp(group.current.position.z, Math.max(0, data.delta * 50), 4, delta)
+    grayscale===true?
+    ref.current.material.grayscale = THREE.MathUtils.damp(ref.current.material.grayscale, Math.max(0, 1 - data.delta * 1000), 4, delta)
+    : ref.current.material.grayscale = 0
   });
   return (
     <group ref={group}>

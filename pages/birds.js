@@ -7,7 +7,7 @@ import Loader from '../components/Loader'
 export default function BirdsPage() {
   const birds = useMemo(
     () =>
-      new Array(10).fill().map((_, index) => {
+      new Array(20).fill().map((_, index) => {
         const x =
           (15 + Math.random() * 30) * (Math.round(Math.random()) ? -1 : 1)
         const y = -10 + Math.random() * 20

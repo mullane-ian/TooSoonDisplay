@@ -4,10 +4,10 @@ export default function IndexPage() {
   return (
     <div className="main">
       <Link href="/birds">
-        <a>ignore</a>
+        <a>Birds</a>
       </Link>
-      <Link href="/boxes">
-        <a>shadereffect</a>
+      <Link href="/gallery">
+        <a>Gallery</a>
       </Link>
     </div>
   )
