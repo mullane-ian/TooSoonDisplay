@@ -1,11 +1,11 @@
 import { Suspense, useRef,useEffect,useMemo,useState } from 'react'
 import * as THREE from "three";
 import { Canvas, useThree, useFrame,useLoader,extend } from '@react-three/fiber'
-import {shaderMaterial, useScroll,ScrollControls, Scroll, Preload, Image as ImageImpl, OrbitControls,useTexture,MapControls,Html } from '@react-three/drei'
+import {shaderMaterial, Loader,useScroll,ScrollControls, Scroll, Preload, Image as ImageImpl, OrbitControls,useTexture,MapControls,Html } from '@react-three/drei'
 import Box from '../components/Image'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { CustomPass } from '../components/CustomPass.js';
-import Loader from '../components/Loader'
+// import Loader from '../components/Loader'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import glsl from "babel-plugin-glsl/macro"; // <--- Module to import
@@ -211,25 +211,28 @@ export default function GalleryPage() {
     <>
     <Canvas gl={{ antialias: true }} dpr={[1, 1.5]}>
         <color attach="background" args={['#ffffff']} />
-        <Loader />
+        <Suspense fallback={null}>
+
         <ambientLight intensity={1} /> 
         {/* <fog /> */}
         <pointLight position={[40, 40, 40]} /> 
 
           <ScrollControls visible infinite horizontal damping={4} pages={4} distance={1}>
               <Scroll>
-              <Suspense fallback={null}>
               <Pages />
 
-              </Suspense>
 
           <MyEffects />
               </Scroll>
 
           </ScrollControls>
 
-          <Preload />
+          <Preload  all/>
+          </Suspense>
+
       </Canvas>
+      <Loader />
+
     </>
   )
 }
