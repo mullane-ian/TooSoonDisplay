@@ -11,6 +11,8 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import glsl from "babel-plugin-glsl/macro"; // <--- Module to import
 import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js';
 import { DotScreenShader } from 'three/examples/jsm/shaders/DotScreenShader.js';
+import {ResizeObserver} from '@juggle/resize-observer'
+
 // Inside your app
 import { useControls } from 'leva'
 import gsap from "gsap";
@@ -58,7 +60,7 @@ function MyEffects() {
   
   const [base, final] = useMemo(() => {
     const renderScene = new RenderPass(scene, camera);
-    const offscreenTarget = new THREE.WebGLRenderTarget(size.width, size.height);
+    // const offscreenTarget = new THREE.WebGLRenderTarget(size.width, size.height);
     const comp = new EffectComposer(gl);
     comp.addPass( renderScene );
     const effect1 = new ShaderPass(DotScreenShader)
@@ -209,7 +211,7 @@ export default function GalleryPage() {
  
   return (
     <>
-    <Canvas gl={{ antialias: true }} dpr={[1, 1.5]}>
+    <Canvas gl={{ antialias: true }} resize={{polyfill:ResizeObserver}}>
         <color attach="background" args={['#ffffff']} />
         <Suspense fallback={null}>
 
